@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/constants/color.dart';
+import 'package:goldonesia/database/loginAuth.dart';
 import 'package:goldonesia/screen/signUp.dart';
 
 class LoginPage extends StatelessWidget {
@@ -154,11 +155,18 @@ class LoginPage extends StatelessWidget {
                   WideButton(
                     text: "Masuk",
                     buttonColor: blue,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
+                    onTap: () async {
+                      // log user in
+                      if (emailController.text == "" &&
+                          passwordController.text == "") {
+                        print("Email dan password tidak boleh kosong");
+                      } else if (emailController.text == "") {
+                        print("Email tidak boleh kosong");
+                      } else if (passwordController.text == "") {
+                        print("Password tidak boleh kosong");
+                      } else
+                        await loginUser(
+                            emailController.text, passwordController.text);
                     },
                   ),
 

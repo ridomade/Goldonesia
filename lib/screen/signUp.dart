@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/constants/color.dart';
+import 'package:goldonesia/database/signUpAuth.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
@@ -145,7 +146,7 @@ class SignUp extends StatelessWidget {
 
                   const SizedBox(height: 5),
                   const Text(
-                    "Minimal 7 karakter berupa kombinasi angka, huruf besar, dan huruf kecil",
+                    "Minimal 6 karakter berupa kombinasi angka, huruf besar, dan huruf kecil",
                     style: TextStyle(fontSize: 10),
                   ),
 
@@ -162,7 +163,32 @@ class SignUp extends StatelessWidget {
                   WideButton(
                     text: "Buat akun",
                     buttonColor: blue,
-                    onTap: () {}, //Homepage Belom ada desain
+                    onTap: () async {
+                      if (usernameController.text == "" &&
+                          emailController.text == "" &&
+                          passwordController.text == "" &&
+                          confirmPasswordController.text == "") {
+                        print("Anda harus mengisi semua kolom.");
+                      } else if (usernameController.text == "") {
+                        print("Anda belum mengisi username");
+                      } else if (emailController.text == "") {
+                        print("Anda belum mengisi email");
+                      } else if (passwordController.text == "") {
+                        print("Anda belum mengisi password");
+                      } else if (confirmPasswordController.text == "") {
+                        print("Anda belum mengisi konfirmasi password");
+                      } else {
+                        if (passwordController.text ==
+                            confirmPasswordController.text) {
+                          await registerUser(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                              usernameController.text);
+                        } else {
+                          print("Password tidak sama");
+                        }
+                      }
+                    }, //Homepage Belom ada desain
                   ),
 
                   const SizedBox(height: 25),
