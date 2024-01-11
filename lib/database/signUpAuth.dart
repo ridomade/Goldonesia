@@ -4,6 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 Future<void> registerUser(
     String email, String password, String username) async {
   try {
+    // Check password complexity
+    if (!isPasswordComplex(password)) {
+      print('Password harus mengandung angka, huruf besar, dan huruf kecil.');
+      return;
+    }
+
     UserCredential userCredential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
@@ -30,6 +36,11 @@ Future<void> registerUser(
   } catch (e) {
     print('Terjadi kesalahan umum: $e');
   }
+}
+
+bool isPasswordComplex(String password) {
+  // Check if the password contains at least one digit, one uppercase letter, and one lowercase letter
+  return RegExp(r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])').hasMatch(password);
 }
 
 Future<void> addUserDataToFirestore(
