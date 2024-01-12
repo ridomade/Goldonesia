@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<void> loginUser(String email, String password) async {
+Future<bool> loginUser(String email, String password) async {
   try {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -13,14 +13,17 @@ Future<void> loginUser(String email, String password) async {
 
     // Access user information using userCredential.user
     User? user = userCredential.user;
+
     if (user != null) {
       print('User UID: ${user.uid}');
       print('User email: ${user.email}');
       // Add other user-related information as needed
     }
+    return true;
   } on FirebaseAuthException catch (e) {
     print("Email atau password salah");
   } catch (e) {
     print('Error: Terjadi kesalahan umum: $e');
   }
+  return false;
 }

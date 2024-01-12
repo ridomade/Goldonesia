@@ -3,6 +3,7 @@ import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/constants/color.dart';
 import 'package:goldonesia/database/loginAuth.dart';
+import 'package:goldonesia/screen/homePage.dart';
 import 'package:goldonesia/screen/signUp.dart';
 
 class LoginPage extends StatelessWidget {
@@ -164,9 +165,13 @@ class LoginPage extends StatelessWidget {
                         print("Email tidak boleh kosong");
                       } else if (passwordController.text == "") {
                         print("Password tidak boleh kosong");
-                      } else
-                        await loginUser(
-                            emailController.text, passwordController.text);
+                      } else if (await loginUser(
+                          emailController.text, passwordController.text)) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      }
                     },
                   ),
 
