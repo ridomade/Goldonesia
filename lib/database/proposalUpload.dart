@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
@@ -13,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 // String? proposalPath;
 
 // var proposalUrl = '';
+
 Future<void> addUsersProposalData(
     String name,
     String ideaOverview,
@@ -34,23 +36,23 @@ Future<void> addUsersProposalData(
           contentType: 'pdf',
         ));
 
-    print(await proposalRef.getDownloadURL());
     print('Berhasil mengupload proposal');
+    await addUsersProposalDataToFirestore(
+        proposalTitel, await proposalRef.getDownloadURL());
   } catch (e) {
     print('Error copying file: $e');
   }
 }
 
 Future<void> addUsersProposalDataToFirestore(
-    String name,
-    String ideaOverview,
-    String totalFundingEstimate,
-    String totalProfitEstimate,
-    String proposalTitel) async {
+    String proposalTitle, String proposalUrl) async {
   try {
     await FirebaseFirestore.instance
         .collection('Users')
-        .add({}).then((document) {});
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Proposal")
+        .add({"proposalTitle": proposalTitle, "proposalUrl": proposalUrl});
+    print("Berhasil menambahkan data proposal ke firestore");
   } catch (e) {
     print('Error copying file: $e');
   }
