@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                       height: 100,
                     ),
                     GradientButton(
-                      text: "Test",
+                      text: "Siapkan Ide Bisnismu Disini",
                       gradientColors: [teal, slightGrey],
                       onTap: () {
                         Navigator.push(
