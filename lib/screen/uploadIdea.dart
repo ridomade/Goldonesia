@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/constants/color.dart';
+import 'package:goldonesia/database/proposalUpload.dart';
 
 class uploadIdea extends StatefulWidget {
   uploadIdea({super.key});
@@ -26,32 +27,54 @@ class _uploadIdeaState extends State<uploadIdea> {
   bool isLoading = false;
   File? fileToDisplay;
 
-  void pickFile() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
+  String? _filePath;
+  String? _fileName;
 
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom,
-          allowedExtensions: ['pdf'],
-          allowMultiple: false);
+  Future<void> pickFile() async {
+    final filePickerResult = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
 
-      if (result != null) {
-        _filename = result!.files.first.name;
-        pickedFile = result!.files.first;
-        fileToDisplay = File(pickedFile!.path.toString());
-
-        print("File name $_filename");
-      }
+    if (filePickerResult != null) {
+      final fileName = filePickerResult.files.first.name;
+      final filePath = filePickerResult.files.first.path;
 
       setState(() {
-        isLoading = false;
+        _filePath = filePath;
+        _fileName = fileName;
+        print("ini song path : $_fileName");
+        print("ini song path : $_filePath");
       });
-    } catch (e) {
-      print(e);
     }
   }
+
+  // void pickFile() async {
+  //   try {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+
+  //     result = await FilePicker.platform.pickFiles(
+  //         type: FileType.custom,
+  //         allowedExtensions: ['pdf'],
+  //         allowMultiple: false);
+
+  //     if (result != null) {
+  //       _filename = result!.files.first.name;
+  //       pickedFile = result!.files.first;
+  //       fileToDisplay = File(pickedFile!.path.toString());
+
+  //       print("File name $_filename");
+  //     }
+
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +125,7 @@ class _uploadIdeaState extends State<uploadIdea> {
                       text: "Unggah Proposal Kamu",
                       buttonColor: blue,
                       onTap: () {
-                        pickedFile!;
+                        pickFile();
                       },
                     ),
                     SizedBox(height: 40),
@@ -118,7 +141,31 @@ class _uploadIdeaState extends State<uploadIdea> {
                       obscureText: false,
                     ),
                     SizedBox(height: 58),
-                    WideButton(text: "Submit", buttonColor: blue),
+                    WideButton(
+                      text: "Submit",
+                      buttonColor: blue,
+                      onTap: () async {
+                        if (widget.namaIdeController.text.isEmpty ||
+                            widget.gambaranIdeController.text.isEmpty ||
+                            widget.perkiraanDana.text.isEmpty ||
+                            widget.perkiraanUntung.text.isEmpty ||
+                            _fileName == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Lengkapi data ide kamu!'),
+                            ),
+                          );
+                        } else {
+                          await addUsersProposalData(
+                              widget.namaIdeController.text,
+                              widget.gambaranIdeController.text,
+                              widget.perkiraanDana.text,
+                              widget.perkiraanUntung.text,
+                              _fileName!,
+                              _filePath!);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

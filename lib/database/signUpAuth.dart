@@ -1,26 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<void> registerUser(
+Future<bool> registerUser(
     String email, String password, String username) async {
   try {
     // Check password complexity
-    if (!isPasswordComplex(password)) {
+    if (isPasswordComplex(password)) {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Successful registration
+      print("Berhasil membuat akun");
+
+      // Add user data to Firestore
+      await addUserDataToFirestore(userCredential.user?.uid, email, username);
+      return true;
+    } else {
       print('Password harus mengandung angka, huruf besar, dan huruf kecil.');
-      return;
     }
-
-    UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    // Successful registration
-    print("Berhasil membuat akun");
-
-    // Add user data to Firestore
-    await addUserDataToFirestore(userCredential.user?.uid, email, username);
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       print('Panjang password harus lebih dari enam karakter');
@@ -36,6 +36,7 @@ Future<void> registerUser(
   } catch (e) {
     print('Terjadi kesalahan umum: $e');
   }
+  return false;
 }
 
 bool isPasswordComplex(String password) {

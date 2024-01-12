@@ -3,6 +3,7 @@ import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/constants/color.dart';
 import 'package:goldonesia/database/signUpAuth.dart';
+import 'package:goldonesia/screen/homePage.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
@@ -180,10 +181,18 @@ class SignUp extends StatelessWidget {
                       } else {
                         if (passwordController.text ==
                             confirmPasswordController.text) {
-                          await registerUser(
+                          if (await registerUser(
                               emailController.text.trim(),
                               passwordController.text.trim(),
-                              usernameController.text);
+                              usernameController.text)) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()),
+                            );
+                          } else {
+                            print("Gagal membuat akun");
+                          }
                         } else {
                           print("Password tidak sama");
                         }
