@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:goldonesia/constants/color.dart";
 import "package:goldonesia/screen/beginningPage.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
