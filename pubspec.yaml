@@ -65,6 +65,8 @@ flutter:
     - assets/sampah.png
     - images/1.png
     - images/2.png
+    - images/3.png
+    - images/4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
