@@ -12,6 +12,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 100,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -23,9 +24,9 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          left: 20.0,
-          right: 20.0,
-          bottom: MediaQuery.of(context).padding.bottom + 10.0,
+          left: 50.0,
+          right: 50.0,
+          bottom: MediaQuery.of(context).padding.bottom + 32.0,
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -51,7 +52,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
                         ],
                       )
                     : Icon(Icons.home, color: white),
-                label: '',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: _currentIndex == 1
