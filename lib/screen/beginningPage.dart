@@ -31,7 +31,7 @@ class BeginningPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 375,
+                  height: 300,
                 ),
                 const Text(
                   "Goldonesia.",
