@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:goldonesia/screen/uploadIdea.dart';
+import 'package:goldonesia/screen/homePage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: uploadIdea(),
+      home: HomePage(),
     );
   }
 }
