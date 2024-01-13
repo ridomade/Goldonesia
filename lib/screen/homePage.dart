@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
   String username = "loading...";
   @override
   void initState() {
@@ -205,13 +206,17 @@ class _HomePageState extends State<HomePage> {
                       height: 60,
                     ),
                     Container(
-                      width: 290, // atur lebar sesuai kebutuhan
-                      height: 90, // atur tinggi sesuai kebutuhan
+                      width: 330, // atur lebar sesuai kebutuhan
+                      height: 105, // atur tinggi sesuai kebutuhan
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [teal, teal, white],
+                          colors: [
+                            teal,
+                            teal,
+                            Color.fromARGB(255, 197, 236, 230)
+                          ],
                         ),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
@@ -232,23 +237,30 @@ class _HomePageState extends State<HomePage> {
                           padding: EdgeInsets.only(left: 20.0),
                           child: Row(
                             children: [
-                              const Text(
+                              Text(
                                 'Siapkan Ide\nBisnismu Disini',
                                 style: TextStyle(
                                   fontFamily: 'Odudo-Soft',
                                   color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      offset: Offset(-3, 3),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
                                 ),
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(
-                                width: 6.0,
+                                width: 23.0,
                               ),
                               // Add some space between text and image
                               Image.asset(
                                 'assets/bisnis.png', // Replace with the actual image path
-                                height: 150, // Set the height of the image
+                                fit: BoxFit.fill, // Set the height of the image
                                 // Set the height of the image
                               ),
                             ],
@@ -271,8 +283,8 @@ class _HomePageState extends State<HomePage> {
                       height: 19,
                     ),
                     Container(
-                      width: 290, // atur lebar sesuai kebutuhan
-                      height: 90, // atur tinggi sesuai kebutuhan
+                      width: 330, // atur lebar sesuai kebutuhan
+                      height: 105, // atur tinggi sesuai kebutuhan
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.bottomLeft,
@@ -280,7 +292,8 @@ class _HomePageState extends State<HomePage> {
                           colors: [
                             Color.fromARGB(255, 213, 241, 194),
                             lightGreen,
-                            lightGreen
+                            lightGreen,
+                            Color.fromARGB(255, 166, 240, 124),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20.0),
@@ -299,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                         child: Stack(
                           children: [
                             Positioned(
-                              left: 0,
+                              left: 6,
                               bottom: 0,
                               child: Image.asset(
                                 'assets/sampah.png', // Replace with the actual image path
@@ -307,30 +320,25 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Positioned(
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: Container(
-                                width:
-                                    145, // Set the width of the text container
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    bottomLeft: Radius.circular(20.0),
-                                  ),
-                                  color: Colors.transparent,
+                              right: 30,
+                              top: 20,
+                              bottom: 2,
+                              child: Text(
+                                'Kelola Sampahmu\n    Mulai Sekarang',
+                                style: TextStyle(
+                                  fontFamily: 'Odudo-Soft',
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      offset: Offset(-3, 3),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
                                 ),
-                                child: Text(
-                                  'Kelola Sampahmu\nMulai Sekarang',
-                                  style: TextStyle(
-                                    fontFamily: 'Odudo-Soft',
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ],
@@ -341,7 +349,16 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            bottomNavigationBar: CustomBottomNavigation(),
+            // bottomNavigationBar: CustomBottomNavigation(),
+
+            bottomNavigationBar: BottomNavBar(
+              currentIndex: _selectedIndex,
+              onTap: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            ),
           ),
         ),
       ),
