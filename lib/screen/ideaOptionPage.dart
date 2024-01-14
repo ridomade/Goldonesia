@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goldonesia/components/reusableContainer.dart';
 import 'package:goldonesia/constants/color.dart';
+import 'package:goldonesia/screen/bigPicturePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class IdeaOption extends StatelessWidget {
@@ -41,14 +42,11 @@ class IdeaOption extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment
-                          .center, // Center the column vertically
-                      crossAxisAlignment: CrossAxisAlignment
-                          .center, // Center the children horizontally
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .center, // Center the row horizontally
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "Ayo Ajukan Ide Milikmu",
@@ -58,8 +56,7 @@ class IdeaOption extends StatelessWidget {
                                 fontSize: 30,
                                 fontWeight: FontWeight.w600,
                               ),
-                              textAlign: TextAlign
-                                  .center, // Center the text within the row
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
@@ -67,8 +64,7 @@ class IdeaOption extends StatelessWidget {
                           height: 10,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .center, // Center the row horizontally
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               children: [
@@ -102,55 +98,61 @@ class IdeaOption extends StatelessWidget {
                   ),
                   ////////////////////////////
                   SizedBox(height: 50),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.symmetric(horizontal: 25),
-                    decoration: BoxDecoration(
-                      color: blue,
-                      borderRadius: BorderRadius.circular(40),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x3f000000),
-                          offset: Offset(0, 10),
-                          blurRadius: 8,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'images/3.png', // Provide the correct image path
-                          width: 150,
-                          height: 150,
-                        ),
-                        SizedBox(
-                            width:
-                                10), // Adjust the spacing between image and text
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Gambaran\n Besar ide",
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BigPicture()),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.symmetric(horizontal: 25),
+                      decoration: BoxDecoration(
+                        color: blue,
+                        borderRadius: BorderRadius.circular(40),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x3f000000),
+                            offset: Offset(0, 10),
+                            blurRadius: 8,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'images/3.png',
+                            width: 150,
+                            height: 150,
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Gambaran\n Besar ide",
+                                style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Punya Gambaran Besar\nIde? Kamu juga\nbisa menyalurkannya",
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
+                              SizedBox(height: 10),
+                              Text(
+                                "Punya Gambaran Besar\nIde? Kamu juga\nbisa menyalurkannya",
+                                style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
@@ -195,11 +197,9 @@ class IdeaOption extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
-                            width:
-                                10), // Adjust the spacing between image and text
+                        SizedBox(width: 10),
                         Image.asset(
-                          'images/4.png', // Provide the correct image path
+                          'images/4.png',
                           width: 150,
                           height: 150,
                         ),
