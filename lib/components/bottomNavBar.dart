@@ -112,34 +112,67 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 50),
+    return Container(
+      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: onTap,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+        child: Stack(
+          children: [
+            BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              showSelectedLabels: true,
+              showUnselectedLabels: false,
+              unselectedItemColor: Colors.white,
+              selectedItemColor: Colors.white,
+              backgroundColor: Color(0xFF0766AD),
+              selectedLabelStyle: TextStyle(color: Color(0xFF0C5E898)),
+              currentIndex: currentIndex,
+              onTap: onTap,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    'assets/icon_home.png',
+                    width: 24, // Set the width of the image
+                    height: 24, // Set the height of the image
+                  ),
+                  label: '-----',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    'assets/icon_menu.png',
+                    width: 24, // Set the width of the image
+                    height: 24, // Set the height of the image
+                  ),
+                  label: '-----',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    'assets/icon_notification.png',
+                    width: 24, // Set the width of the image
+                    height: 24, // Set the height of the image
+                  ),
+                  label: '-----',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset(
+                    'assets/icon_profile.png',
+                    width: 24, // Set the width of the image
+                    height: 24, // Set the height of the image
+                  ),
+                  label: '-----',
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notifications',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
+            // Positioned(
+            //   left: 20 + (MediaQuery.of(context).size.width / 5) * currentIndex,
+            //   bottom: 10,
+            //   child: Container(
+            //     width: 40,
+            //     height: 2,
+            //     color: Color(0xFF0C5E898), // Set the underline color to red
+            //   ),
+            // ),
           ],
-          selectedItemColor: Color.fromARGB(255, 0, 0, 0),
-          unselectedItemColor: Colors.grey,
-          backgroundColor: Colors.grey, // Set the background color to blue
         ),
       ),
     );

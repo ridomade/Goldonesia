@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:goldonesia/components/bottomNavBar.dart';
 import 'package:goldonesia/database/getUserData.dart';
+import 'package:goldonesia/screen/ideaOptionPage.dart';
 import 'package:goldonesia/screen/uploadIdea.dart';
 
 import '../components/gradientButton.dart';
@@ -128,15 +129,18 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           automaticallyImplyLeading: false,
           actions: [
-            IconButton(
-              icon: Icon(
-                Icons.person,
-                size: 48,
-                color: blue,
-              ), // Replace with your second icon
-              onPressed: () {
-                // Handle the press for the second icon
+            GestureDetector(
+              onTap: () {
+                print("Masuk Ke laman Profile");
               },
+              child: CircleAvatar(
+                  radius: 30,
+                  child: ClipOval(
+                    child: Image.network(
+                      'https://firebasestorage.googleapis.com/v0/b/goldonesia-database.appspot.com/o/Users%2Fdefault_profile_photo.jpg?alt=media&token=d5f13064-c8a5-4fdb-a040-1735dab03d5e',
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent),
             ),
             SizedBox(width: 50),
           ],
@@ -225,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => uploadIdea()),
+                                builder: (context) => IdeaOption()),
                           );
                         },
                         style: TextButton.styleFrom(
@@ -268,17 +272,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-
-                    // GradientButton(
-                    //   text: "Siapkan Ide Bisnismu Disini",
-                    //   gradientColors: [teal, teal, teal, slightGrey],
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(builder: (context) => uploadIdea()),
-                    //     );
-                    //   },
-                    // ),
                     SizedBox(
                       height: 19,
                     ),
