@@ -48,10 +48,19 @@ Future<void> addUsersProposalDataToFirestore(
     String proposalTitle, String proposalUrl) async {
   try {
     await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("Proposal")
-        .add({"proposalTitle": proposalTitle, "proposalUrl": proposalUrl});
+        .add({"proposalTitle": proposalTitle, "proposalUrl": proposalUrl}).then(
+            (document) async {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("Proposal")
+          .add({
+        "userProposal":
+            FirebaseFirestore.instance.collection("Users").doc(document.id)
+      });
+    });
+
     print("Berhasil menambahkan data proposal ke firestore");
   } catch (e) {
     print('Error copying file: $e');

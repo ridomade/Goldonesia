@@ -163,15 +163,6 @@ class BottomNavBar extends StatelessWidget {
                 ),
               ],
             ),
-            // Positioned(
-            //   left: 20 + (MediaQuery.of(context).size.width / 5) * currentIndex,
-            //   bottom: 10,
-            //   child: Container(
-            //     width: 40,
-            //     height: 2,
-            //     color: Color(0xFF0C5E898), // Set the underline color to red
-            //   ),
-            // ),
           ],
         ),
       ),
