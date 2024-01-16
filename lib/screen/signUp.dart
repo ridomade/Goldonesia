@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goldonesia/components/bottomNavBar.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/constants/color.dart';
@@ -193,7 +194,7 @@ class SignUp extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePage()),
+                                  builder: (context) => BottomNavBar()),
                             );
                           } else {
                             print("Gagal membuat akun");

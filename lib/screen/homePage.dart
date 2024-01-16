@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:goldonesia/components/bottomNavBar.dart';
-import 'package:goldonesia/database/getUserData.dart';
 import 'package:goldonesia/screen/ideaOptionPage.dart';
-import 'package:goldonesia/screen/uploadIdea.dart';
-
-import '../components/gradientButton.dart';
 import '../constants/color.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,8 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
   String username = "loading...";
+  String userProfile =
+      'https://firebasestorage.googleapis.com/v0/b/goldonesia-database.appspot.com/o/Users%2Fdefault_profile_photo.jpg?alt=media&token=d5f13064-c8a5-4fdb-a040-1735dab03d5e';
   @override
   void initState() {
     super.initState();
@@ -33,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       (event) {
         setState(() {
           username = event['username'];
+          userProfile = event['profileURL'];
         });
       },
       onError: (error) => print("Listen failed: $error"),
@@ -74,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                   radius: 30,
                   child: ClipOval(
                     child: Image.network(
-                      'https://firebasestorage.googleapis.com/v0/b/goldonesia-database.appspot.com/o/Users%2Fdefault_profile_photo.jpg?alt=media&token=d5f13064-c8a5-4fdb-a040-1735dab03d5e',
+                      userProfile,
                     ),
                   ),
                   backgroundColor: Colors.transparent),
@@ -274,16 +271,16 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // bottomNavigationBar: CustomBottomNavigation(),
+            // bottomNavigationBar:
 
-            bottomNavigationBar: BottomNavBar(
-              currentIndex: _selectedIndex,
-              onTap: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-            ),
+            // bottomNavigationBar: BottomNavBar(
+            //   currentIndex: _selectedIndex,
+            //   onTap: (index) {
+            //     setState(() {
+            //       _selectedIndex = index;
+            //     });
+            //   },
+            // ),
           ),
         ),
       ),

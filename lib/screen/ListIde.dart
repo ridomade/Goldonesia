@@ -230,39 +230,39 @@ class _ListIdeState extends State<ListIde> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const EditScreen(),
-              ),
-            );
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () async {
+        //     final result = await Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (BuildContext context) => const EditScreen(),
+        //       ),
+        //     );
 
-            if (result != null) {
-              setState(() {
-                sampleNotes.add(
-                  Note(
-                    id: sampleNotes.length,
-                    title: result[0],
-                    content: result[1],
-                    modifiedTime: DateTime.now(),
-                    danaAwal: result[3],
-                    untung: result[4],
-                  ),
-                );
-                filteredNotes = sampleNotes;
-              });
-            }
-          },
-          elevation: 10,
-          backgroundColor: Colors.teal,
-          child: const Icon(
-            Icons.add,
-            size: 38,
-            color: Colors.lightGreen,
-          ),
-        ),
+        //     if (result != null) {
+        //       setState(() {
+        //         sampleNotes.add(
+        //           Note(
+        //             id: sampleNotes.length,
+        //             title: result[0],
+        //             content: result[1],
+        //             modifiedTime: DateTime.now(),
+        //             danaAwal: result[3],
+        //             untung: result[4],
+        //           ),
+        //         );
+        //         filteredNotes = sampleNotes;
+        //       });
+        //     }
+        //   },
+        //   elevation: 10,
+        //   backgroundColor: Colors.teal,
+        //   child: const Icon(
+        //     Icons.add,
+        //     size: 38,
+        //     color: Colors.lightGreen,
+        //   ),
+        // ),
       ),
     );
   }

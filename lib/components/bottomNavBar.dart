@@ -1,3 +1,114 @@
+import 'package:flutter/material.dart';
+import 'package:goldonesia/constants/color.dart';
+import 'package:goldonesia/screen/ListIde.dart';
+import 'package:goldonesia/screen/homePage.dart';
+
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
+
+  @override
+  _BottomNavBarState createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  int _currentIndex = 0;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            children: [
+              // Your first screen content
+              HomePage(),
+              // Your second screen content
+              ListIde(),
+              // Add more screens as needed
+            ],
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: false,
+                  unselectedItemColor: Colors.white,
+                  selectedItemColor: Colors.white,
+                  backgroundColor: Color(0xFF0766AD),
+                  selectedLabelStyle: TextStyle(color: Color(0xFF0C5E898)),
+                  currentIndex: _currentIndex,
+                  onTap: (index) {
+                    _pageController.animateToPage(
+                      index,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Image.asset(
+                        'assets/icon_home.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: '-----',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Image.asset(
+                        'assets/icon_menu.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: '-----',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Image.asset(
+                        'assets/icon_notification.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: '-----',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Image.asset(
+                        'assets/icon_profile.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: '-----',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // import 'package:flutter/material.dart';
 // import 'package:goldonesia/constants/color.dart';
 
@@ -97,75 +208,73 @@
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:goldonesia/constants/color.dart';
+// import 'package:flutter/material.dart';
+// import 'package:goldonesia/constants/color.dart';
 
-class BottomNavBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
+// class BottomNavBar extends StatelessWidget {
+//   int currentIndex = 0;
+//     onTap: (index) {
+//                 setState(() {
+//                   _selectedIndex = index;
+//                 });
+//               };
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+//       child: ClipRRect(
+//         borderRadius: BorderRadius.circular(20),
+//         child: Stack(
+//           children: [
+//             BottomNavigationBar(
+//               type: BottomNavigationBarType.fixed,
+//               showSelectedLabels: true,
+//               showUnselectedLabels: false,
+//               unselectedItemColor: Colors.white,
+//               selectedItemColor: Colors.white,
+//               backgroundColor: Color(0xFF0766AD),
+//               selectedLabelStyle: TextStyle(color: Color(0xFF0C5E898)),
+//               currentIndex: currentIndex,
+//               onTap: onTap,
+//               items: [
+//                 BottomNavigationBarItem(
+//                   icon: Image.asset(
+//                     'assets/icon_home.png',
+//                     width: 24, // Set the width of the image
+//                     height: 24, // Set the height of the image
+//                   ),
+//                   label: '-----',
+//                 ),
+//                 BottomNavigationBarItem(
+//                   icon: Image.asset(
+//                     'assets/icon_menu.png',
+//                     width: 24, // Set the width of the image
+//                     height: 24, // Set the height of the image
+//                   ),
+//                   label: '-----',
+//                 ),
+//                 BottomNavigationBarItem(
+//                   icon: Image.asset(
+//                     'assets/icon_notification.png',
+//                     width: 24, // Set the width of the image
+//                     height: 24, // Set the height of the image
+//                   ),
+//                   label: '-----',
+//                 ),
+//                 BottomNavigationBarItem(
+//                   icon: Image.asset(
+//                     'assets/icon_profile.png',
+//                     width: 24, // Set the width of the image
+//                     height: 24, // Set the height of the image
+//                   ),
+//                   label: '-----',
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  const BottomNavBar({
-    Key? key,
-    required this.currentIndex,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Stack(
-          children: [
-            BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: true,
-              showUnselectedLabels: false,
-              unselectedItemColor: Colors.white,
-              selectedItemColor: Colors.white,
-              backgroundColor: Color(0xFF0766AD),
-              selectedLabelStyle: TextStyle(color: Color(0xFF0C5E898)),
-              currentIndex: currentIndex,
-              onTap: onTap,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icon_home.png',
-                    width: 24, // Set the width of the image
-                    height: 24, // Set the height of the image
-                  ),
-                  label: '-----',
-                ),
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icon_menu.png',
-                    width: 24, // Set the width of the image
-                    height: 24, // Set the height of the image
-                  ),
-                  label: '-----',
-                ),
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icon_notification.png',
-                    width: 24, // Set the width of the image
-                    height: 24, // Set the height of the image
-                  ),
-                  label: '-----',
-                ),
-                BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icon_profile.png',
-                    width: 24, // Set the width of the image
-                    height: 24, // Set the height of the image
-                  ),
-                  label: '-----',
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
