@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/constants/color.dart';
+import 'package:goldonesia/constants/colors.dart';
 import 'package:goldonesia/database/proposalUpload.dart';
+import 'package:intl/intl.dart';
 
 class uploadIdea extends StatefulWidget {
   uploadIdea({super.key});
@@ -22,7 +25,6 @@ class uploadIdea extends StatefulWidget {
 
 class _uploadIdeaState extends State<uploadIdea> {
   FilePickerResult? result;
-  String? _filename;
   PlatformFile? pickedFile;
   bool isLoading = false;
   File? fileToDisplay;
@@ -43,38 +45,9 @@ class _uploadIdeaState extends State<uploadIdea> {
       setState(() {
         _filePath = filePath;
         _fileName = fileName;
-        print("ini song path : $_fileName");
-        print("ini song path : $_filePath");
       });
     }
   }
-
-  // void pickFile() async {
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-
-  //     result = await FilePicker.platform.pickFiles(
-  //         type: FileType.custom,
-  //         allowedExtensions: ['pdf'],
-  //         allowMultiple: false);
-
-  //     if (result != null) {
-  //       _filename = result!.files.first.name;
-  //       pickedFile = result!.files.first;
-  //       fileToDisplay = File(pickedFile!.path.toString());
-
-  //       print("File name $_filename");
-  //     }
-
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,21 +60,23 @@ class _uploadIdeaState extends State<uploadIdea> {
           ),
         ),
         child: Scaffold(
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             leading: BackButton(
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             centerTitle: true,
-            title: Text(
+            title: const Text(
               "Detail Ide Kamu",
               style: TextStyle(
                 fontFamily: 'Odudo-Soft',
-                color: Color(0xFF0766AD),
-                fontSize: 35,
-                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                fontSize: 29,
+                fontWeight: FontWeight.w100,
               ),
             ),
           ),
@@ -110,7 +85,7 @@ class _uploadIdeaState extends State<uploadIdea> {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 80),
+                    SizedBox(height: 30),
                     ReusableTextField(
                         label: "Nama Ide",
                         controller: widget.namaIdeController,
@@ -120,25 +95,162 @@ class _uploadIdeaState extends State<uploadIdea> {
                         label: "Gambaran Ide",
                         controller: widget.gambaranIdeController,
                         obscureText: false),
-                    SizedBox(height: 42),
-                    WideButton(
-                      text: "Unggah Proposal Kamu",
-                      buttonColor: blue,
-                      onTap: () {
-                        pickFile();
-                      },
+                    SizedBox(height: 12),
+                    const Align(
+                      alignment: Alignment(-0.76,
+                          -0.5), // Sesuaikan dengan nilai yang diinginkan
+                      child: Text(
+                        "Unggah Proposal Kamu",
+                        style: TextStyle(
+                          fontFamily:
+                              'Roboto', // Menggunakan font bawaan Flutter (Raleway juga dapat dipertimbangkan)
+                          color: Color(0xFF0766AD),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment
+                          .start, // Penempatan lintang ke kiri
+                      children: [
+                        _fileName == null
+                            ? Align(
+                                alignment: Alignment(-1.0, -0.5),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    pickFile();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 32.0),
+                                    child: Container(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Image.asset(
+                                          'assets/icon_upload.png',
+                                          width: 30.0,
+                                          height: 30.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                            : Padding(
+                                padding: const EdgeInsets.only(left: 30),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                          'assets/icon_pdf.png', // Ganti dengan path gambar Anda
+                                          width: 30.0,
+                                          height: 30.0,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          _fileName!,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                        SizedBox(
+                          width: _fileName == null ? 10 : 0,
+                        ), // Jarak antara icon dan WideButton
+                      ],
                     ),
                     SizedBox(height: 40),
-                    ReusableTextField(
-                      label: "Perkiraan Dana Total",
-                      controller: widget.perkiraanDana,
-                      obscureText: false,
+                    Container(
+                      width: 350, // Adjust the width as needed
+                      child: Material(
+                        elevation: 3, // Adjust the shadow as needed
+                        borderRadius: BorderRadius.circular(20),
+                        child: TextField(
+                          controller: widget.perkiraanDana,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(
+                                15), // Adjust the limit as needed
+                          ],
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              int inputValue = int.parse(value);
+                              String formattedValue =
+                                  NumberFormat('#,###', 'id')
+                                      .format(inputValue);
+                              widget.perkiraanDana.value = TextEditingValue(
+                                text: formattedValue,
+                                selection: TextSelection.fromPosition(
+                                  TextPosition(offset: formattedValue.length),
+                                ),
+                              );
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Perkiraan Dana Total",
+                            prefixText: 'Rp. ',
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 35),
-                    ReusableTextField(
-                      label: "Perkiraan untung",
-                      controller: widget.perkiraanUntung,
-                      obscureText: false,
+                    Container(
+                      width: 350, // Adjust the width as needed
+                      child: Material(
+                        elevation: 3, // Adjust the shadow as needed
+                        borderRadius: BorderRadius.circular(20),
+                        child: TextField(
+                          controller: widget.perkiraanUntung,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(
+                                15), // Adjust the limit as needed
+                          ],
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              int inputValue = int.parse(value);
+                              String formattedValue =
+                                  NumberFormat('#,###', 'id')
+                                      .format(inputValue);
+                              widget.perkiraanUntung.value = TextEditingValue(
+                                text: formattedValue,
+                                selection: TextSelection.fromPosition(
+                                  TextPosition(offset: formattedValue.length),
+                                ),
+                              );
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Perkiraan Untung",
+                            prefixText: 'Rp. ',
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 58),
                     WideButton(

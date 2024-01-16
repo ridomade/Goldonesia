@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goldonesia/components/reusableContainer.dart';
 import 'package:goldonesia/constants/color.dart';
 import 'package:goldonesia/screen/bigPicturePage.dart';
+import 'package:goldonesia/screen/uploadIdea.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class IdeaOption extends StatelessWidget {
@@ -25,18 +26,25 @@ class IdeaOption extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 25),
-                  const Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          size: 35,
-                        ),
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      // Handle the tap event
+                      Navigator.pop(context); // This will navigate back
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.arrow_back,
+                            size: 35,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 10),
 
                   Padding(
@@ -157,55 +165,66 @@ class IdeaOption extends StatelessWidget {
                   ),
 
                   SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.symmetric(horizontal: 25),
-                    decoration: BoxDecoration(
-                      color: blue,
-                      borderRadius: BorderRadius.circular(40),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x3f000000),
-                          offset: Offset(0, 10),
-                          blurRadius: 8,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Salurkan Ide mu",
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
+
+                  InkWell(
+                    onTap: () {
+                      // Handle the tap event here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => uploadIdea()),
+                      );
+                      // You can add your logic or navigate to a new screen, etc.
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.symmetric(horizontal: 25),
+                      decoration: BoxDecoration(
+                        color: blue,
+                        borderRadius: BorderRadius.circular(40),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x3f000000),
+                            offset: Offset(0, 10),
+                            blurRadius: 8,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Salurkan Ide mu",
+                                style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 20),
-                            Text(
-                              "Ide sudah matang?,\nlangsung ajukan saja",
-                              style: GoogleFonts.nunito(
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
+                              SizedBox(height: 20),
+                              Text(
+                                "Ide sudah matang?,\nlangsung ajukan saja",
+                                style: GoogleFonts.nunito(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 10),
-                        Image.asset(
-                          'images/4.png',
-                          width: 150,
-                          height: 150,
-                        ),
-                      ],
+                            ],
+                          ),
+                          SizedBox(width: 10),
+                          Image.asset(
+                            'images/4.png',
+                            width: 150,
+                            height: 150,
+                          ),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

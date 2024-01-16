@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goldonesia/components/bottomNavBar.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/constants/color.dart';
@@ -169,7 +170,8 @@ class LoginPage extends StatelessWidget {
                           emailController.text, passwordController.text)) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()),
                         );
                       }
                     },

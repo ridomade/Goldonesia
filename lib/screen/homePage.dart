@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:goldonesia/components/bottomNavBar.dart';
-import 'package:goldonesia/database/getUserData.dart';
-import 'package:goldonesia/screen/uploadIdea.dart';
-
-import '../components/gradientButton.dart';
+import 'package:goldonesia/screen/ideaOptionPage.dart';
 import '../constants/color.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,8 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
   String username = "loading...";
+  String userProfile =
+      'https://firebasestorage.googleapis.com/v0/b/goldonesia-database.appspot.com/o/Users%2Fdefault_profile_photo.jpg?alt=media&token=d5f13064-c8a5-4fdb-a040-1735dab03d5e';
   @override
   void initState() {
     super.initState();
@@ -32,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       (event) {
         setState(() {
           username = event['username'];
+          userProfile = event['profileURL'];
         });
       },
       onError: (error) => print("Listen failed: $error"),
@@ -60,83 +58,23 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   actions: [
-        //     Padding(
-        //       padding: const EdgeInsets.only(right: 28.0),
-        //       child: Container(
-        //         decoration: BoxDecoration(
-        //             shape: BoxShape.circle, border: Border.all(width: 1)),
-        //         child: const Icon(
-        //           Icons.person,
-        //           size: 55,
-        //         ),
-        //       ),
-        //     ),
-        //     SizedBox(height: 20),
-        //     Padding(
-        //       padding: const EdgeInsets.only(right: 28.0),
-        //       child: Container(
-        //         child: Icon(
-        //           Icons.notifications_none,
-        //           size: 48,
-        //           color: blue,
-        //         ),
-        //       ),
-        //     ),
-        //   ],
-        //   title: Padding(
-        //     padding: EdgeInsets.only(left: 36.0),
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         const Text(
-        //           "Halo,",
-        //           style: TextStyle(
-        //             fontFamily: 'Odudo-Soft',
-        //             color: Color(0xFF0766AD),
-        //             fontSize: 22,
-        //             fontWeight: FontWeight.w600,
-        //           ),
-        //         ),
-        //         Text(
-        //           username,
-        //           style: const TextStyle(
-        //             fontFamily: 'Odudo-Soft',
-        //             color: Color(0xFF0766AD),
-        //             fontSize: 32,
-        //             fontWeight: FontWeight.w600,
-        //           ),
-        //         ),
-        //         const Text(
-        //           "Ayo wujudkan masa depan\nyang lebih baik!",
-        //           style: TextStyle(
-        //             fontFamily: 'Odudo-Soft',
-        //             color: Color(0xFF0766AD),
-        //             fontSize: 18,
-        //             fontWeight: FontWeight.w600,
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   toolbarHeight: 150,
-        // ),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           automaticallyImplyLeading: false,
           actions: [
-            IconButton(
-              icon: Icon(
-                Icons.person,
-                size: 48,
-                color: blue,
-              ), // Replace with your second icon
-              onPressed: () {
-                // Handle the press for the second icon
+            GestureDetector(
+              onTap: () {
+                print("Masuk Ke laman Profile");
               },
+              child: CircleAvatar(
+                  radius: 30,
+                  child: ClipOval(
+                    child: Image.network(
+                      userProfile,
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent),
             ),
             SizedBox(width: 50),
           ],
@@ -194,7 +132,6 @@ class _HomePageState extends State<HomePage> {
           ),
           toolbarHeight: 150,
         ),
-
         body: SafeArea(
           child: Scaffold(
             backgroundColor: Colors.transparent,
@@ -225,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => uploadIdea()),
+                                builder: (context) => IdeaOption()),
                           );
                         },
                         style: TextButton.styleFrom(
@@ -268,17 +205,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-
-                    // GradientButton(
-                    //   text: "Siapkan Ide Bisnismu Disini",
-                    //   gradientColors: [teal, teal, teal, slightGrey],
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(builder: (context) => uploadIdea()),
-                    //     );
-                    //   },
-                    // ),
                     SizedBox(
                       height: 19,
                     ),
@@ -300,11 +226,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => uploadIdea()),
-                          );
+                          //ganti ke kelola sampah dari user
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero, // Remove padding
@@ -349,16 +271,16 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // bottomNavigationBar: CustomBottomNavigation(),
+            // bottomNavigationBar:
 
-            bottomNavigationBar: BottomNavBar(
-              currentIndex: _selectedIndex,
-              onTap: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-            ),
+            // bottomNavigationBar: BottomNavBar(
+            //   currentIndex: _selectedIndex,
+            //   onTap: (index) {
+            //     setState(() {
+            //       _selectedIndex = index;
+            //     });
+            //   },
+            // ),
           ),
         ),
       ),

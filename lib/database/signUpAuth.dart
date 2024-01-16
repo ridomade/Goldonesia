@@ -52,9 +52,9 @@ Future<void> addUserDataToFirestore(
         'username': username,
         'email': email,
         'investorRole': false,
-        'profileName':
+        'profileURL':
             'https://firebasestorage.googleapis.com/v0/b/goldonesia-database.appspot.com/o/Users%2Fdefault_profile_photo.jpg?alt=media&token=d5f13064-c8a5-4fdb-a040-1735dab03d5e',
-        'profileUrl': 'default_profile_photo.jpg',
+        'profileName': 'default_profile_photo.jpg',
       });
       print('User data added to Firestore');
     }
