@@ -1,6 +1,6 @@
 import 'dart:math';
+import 'package:goldonesia/constants/color.dart';
 import 'package:intl/intl.dart';
-
 import 'package:flutter/material.dart';
 import 'package:goldonesia/constants/colors.dart';
 import 'package:goldonesia/models/note.dart';
@@ -113,61 +113,19 @@ class _ListIdeState extends State<ListIde> {
                 height: 10,
               ),
               Expanded(
-                  child: ListView.builder(
-                padding: const EdgeInsets.only(top: 10),
-                itemCount: filteredNotes.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.green, Colors.white],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 10),
+                  itemCount: filteredNotes.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        onTap: () {},
                         child: ListTile(
-                          onTap: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    EditScreen(note: filteredNotes[index]),
-                              ),
-                            );
-                            if (result != null) {
-                              setState(() {
-                                int originalIndex =
-                                    sampleNotes.indexOf(filteredNotes[index]);
-
-                                sampleNotes[originalIndex] = Note(
-                                  id: sampleNotes[originalIndex].id,
-                                  title: result[0],
-                                  content: result[1],
-                                  modifiedTime: DateTime.now(),
-                                  danaAwal: result[3],
-                                  untung: result[4],
-                                );
-
-                                filteredNotes[index] = Note(
-                                  id: filteredNotes[index].id,
-                                  title: result[0],
-                                  content: result[1],
-                                  modifiedTime: DateTime.now(),
-                                  danaAwal: result[3],
-                                  untung: result[4],
-                                );
-                              });
-                            }
-                          },
                           title: RichText(
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -224,23 +182,51 @@ class _ListIdeState extends State<ListIde> {
                               ],
                             ),
                           ),
-                          trailing: IconButton(
-                            onPressed: () async {
-                              final result = await confirmDialog(context);
-                              if (result != null && result) {
-                                deleteNote(index);
+                          trailing: GestureDetector(
+                            onTap: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      EditScreen(note: filteredNotes[index]),
+                                ),
+                              );
+                              if (result != null) {
+                                setState(() {
+                                  int originalIndex =
+                                      sampleNotes.indexOf(filteredNotes[index]);
+
+                                  sampleNotes[originalIndex] = Note(
+                                    id: sampleNotes[originalIndex].id,
+                                    title: result[0],
+                                    content: result[1],
+                                    modifiedTime: DateTime.now(),
+                                    danaAwal: result[2],
+                                    untung: result[3],
+                                  );
+
+                                  filteredNotes[index] = Note(
+                                    id: filteredNotes[index].id,
+                                    title: result[0],
+                                    content: result[1],
+                                    modifiedTime: DateTime.now(),
+                                    danaAwal: result[2],
+                                    untung: result[3],
+                                  );
+                                });
                               }
                             },
-                            icon: const Icon(
-                              Icons.delete,
+                            child: const Icon(
+                              Icons.edit,
+                              color: Colors.black,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ))
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -270,10 +256,11 @@ class _ListIdeState extends State<ListIde> {
             }
           },
           elevation: 10,
-          backgroundColor: Colors.grey.shade800,
+          backgroundColor: Colors.teal,
           child: const Icon(
             Icons.add,
             size: 38,
+            color: Colors.lightGreen,
           ),
         ),
       ),
@@ -282,51 +269,57 @@ class _ListIdeState extends State<ListIde> {
 
   Future<dynamic> confirmDialog(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.grey.shade900,
-            icon: const Icon(
-              Icons.info,
-              color: Colors.grey,
-            ),
-            title: const Text(
-              'Are you sure you want to delete?',
-              style: TextStyle(color: Colors.white),
-            ),
-            content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green),
-                      child: const SizedBox(
-                        width: 60,
-                        child: Text(
-                          'Yes',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                      child: const SizedBox(
-                        width: 60,
-                        child: Text(
-                          'No',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )),
-                ]),
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey.shade900,
+          icon: const Icon(
+            Icons.info,
+            color: Colors.grey,
+          ),
+          title: const Text(
+            'Are you sure you want to delete?',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: const SizedBox(
+                  width: 60,
+                  child: Text(
+                    'Yes',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                child: const SizedBox(
+                  width: 60,
+                  child: Text(
+                    'No',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
