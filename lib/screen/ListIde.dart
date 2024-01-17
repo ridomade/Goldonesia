@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:goldonesia/constants/color.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:goldonesia/constants/colors.dart';
@@ -7,7 +8,7 @@ import 'package:goldonesia/models/note.dart';
 import 'package:goldonesia/screen/edit.dart';
 
 class ListIde extends StatefulWidget {
-  const ListIde({super.key});
+  const ListIde({Key? key}) : super(key: key);
 
   @override
   State<ListIde> createState() => _ListIdeState();
@@ -65,7 +66,7 @@ class _ListIdeState extends State<ListIde> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.green, Colors.white],
+          colors: [Colors.lightGreen, Colors.white],
         ),
       ),
       child: Scaffold(
@@ -123,102 +124,100 @@ class _ListIdeState extends State<ListIde> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          title: RichText(
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            text: TextSpan(
-                              text: '${filteredNotes[index].title} \n',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                height: 1.5,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: filteredNotes[index].content,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF29ADB2),
+                              Color(0xFF29ADB2),
+                              Color(0xFF29ADB2),
+                            ],
                           ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Column(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: InkWell(
+                          onTap: () {},
+                          child: ListTile(
+                            title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
+                                  '${filteredNotes[index].title}',
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    height: 1.5,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  filteredNotes[index].content,
+                                  style: GoogleFonts.nunito(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 11,
+                                    height: 1.5,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
                                   'Edited: ${DateFormat('EEE MMM d, yyyy h:mm a').format(filteredNotes[index].modifiedTime)}',
-                                  style: TextStyle(
+                                  style: GoogleFonts.nunito(
                                     fontSize: 10,
                                     fontStyle: FontStyle.italic,
-                                    color: Colors.grey.shade800,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                Text(
-                                  'Dana Awal: ${filteredNotes[index].danaAwal}',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.grey.shade800,
-                                  ),
+                                SizedBox(
+                                  height: 14,
                                 ),
-                                Text(
-                                  'Untung: ${filteredNotes[index].untung}',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.grey.shade800,
-                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'Dana Awal: ${filteredNotes[index].danaAwal}',
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Untung: ${filteredNotes[index].untung}',
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                SizedBox(height: 15)
                               ],
                             ),
-                          ),
-                          trailing: GestureDetector(
-                            onTap: () async {
-                              final result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      EditScreen(note: filteredNotes[index]),
-                                ),
-                              );
-                              if (result != null) {
-                                setState(() {
-                                  int originalIndex =
-                                      sampleNotes.indexOf(filteredNotes[index]);
+                            trailing: GestureDetector(
+                              onTap: () async {
+                                // Show the delete confirmation dialog
+                                bool deleteConfirmed =
+                                    await confirmDialog(context);
 
-                                  sampleNotes[originalIndex] = Note(
-                                    id: sampleNotes[originalIndex].id,
-                                    title: result[0],
-                                    content: result[1],
-                                    modifiedTime: DateTime.now(),
-                                    danaAwal: result[2],
-                                    untung: result[3],
-                                  );
-
-                                  filteredNotes[index] = Note(
-                                    id: filteredNotes[index].id,
-                                    title: result[0],
-                                    content: result[1],
-                                    modifiedTime: DateTime.now(),
-                                    danaAwal: result[2],
-                                    untung: result[3],
-                                  );
-                                });
-                              }
-                            },
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.black,
+                                if (deleteConfirmed) {
+                                  // Delete the note if confirmed
+                                  setState(() {
+                                    deleteNote(index);
+                                  });
+                                }
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
@@ -230,39 +229,7 @@ class _ListIdeState extends State<ListIde> {
             ],
           ),
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () async {
-        //     final result = await Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (BuildContext context) => const EditScreen(),
-        //       ),
-        //     );
 
-        //     if (result != null) {
-        //       setState(() {
-        //         sampleNotes.add(
-        //           Note(
-        //             id: sampleNotes.length,
-        //             title: result[0],
-        //             content: result[1],
-        //             modifiedTime: DateTime.now(),
-        //             danaAwal: result[3],
-        //             untung: result[4],
-        //           ),
-        //         );
-        //         filteredNotes = sampleNotes;
-        //       });
-        //     }
-        //   },
-        //   elevation: 10,
-        //   backgroundColor: Colors.teal,
-        //   child: const Icon(
-        //     Icons.add,
-        //     size: 38,
-        //     color: Colors.lightGreen,
-        //   ),
-        // ),
       ),
     );
   }
