@@ -18,8 +18,9 @@ class _ListIdeState extends State<ListIde> {
   bool sorted = false;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
+    // await addAllProposal();
     filteredNotes = sampleNotes;
   }
 
