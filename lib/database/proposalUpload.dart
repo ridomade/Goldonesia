@@ -38,20 +38,41 @@ Future<void> addUsersProposalData(
 
     print('Berhasil mengupload proposal');
     await addUsersProposalDataToFirestore(
-        proposalTitel, await proposalRef.getDownloadURL());
+        proposalTitel,
+        ideaOverview,
+        totalFundingEstimate,
+        totalProfitEstimate,
+        await proposalRef.getDownloadURL());
   } catch (e) {
     print('Error copying file: $e');
   }
 }
 
 Future<void> addUsersProposalDataToFirestore(
-    String proposalTitle, String proposalUrl) async {
+    String proposalTitle,
+    String ideaOverview,
+    String totalFundingEstimate,
+    String totalProfitEstimate,
+    String proposalUrl) async {
   try {
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("Proposal")
-        .add({"proposalTitle": proposalTitle, "proposalUrl": proposalUrl});
+    await FirebaseFirestore.instance.collection("Proposal").add({
+      "proposalTitle": proposalTitle,
+      "ideaOverview": ideaOverview,
+      "modifiedTime": DateTime.now(),
+      "costEstimate": totalFundingEstimate,
+      "profitEstimate": totalProfitEstimate,
+      "proposalUrl": proposalUrl
+    }).then((document) async {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("Proposal")
+          .add({
+        "userProposal":
+            FirebaseFirestore.instance.collection("Users").doc(document.id)
+      });
+    });
+
     print("Berhasil menambahkan data proposal ke firestore");
   } catch (e) {
     print('Error copying file: $e');

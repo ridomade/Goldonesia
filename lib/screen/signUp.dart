@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goldonesia/components/bottomNavBar.dart';
 import 'package:goldonesia/components/reusableTextfield.dart';
 import 'package:goldonesia/components/wideButton.dart';
 import 'package:goldonesia/constants/color.dart';
@@ -44,14 +45,19 @@ class SignUp extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 25),
-                  const Padding(
+                  Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.close,
-                          size: 35,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context); // This will navigate back
+                          },
+                          child: const Icon(
+                            Icons.arrow_back,
+                            size: 35,
+                          ),
                         ),
                       ],
                     ),
@@ -188,7 +194,7 @@ class SignUp extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomePage()),
+                                  builder: (context) => BottomNavBar()),
                             );
                           } else {
                             print("Gagal membuat akun");
