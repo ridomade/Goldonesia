@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:goldonesia/components/sideProfile.dart';
+import 'package:goldonesia/screen/ListIde.dart';
 import 'package:goldonesia/screen/ideaOptionPage.dart';
-import 'package:side_sheet/side_sheet.dart';
 import '../constants/color.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePageInvestor extends StatefulWidget {
+  const HomePageInvestor({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageInvestor> createState() => _HomePageInvestorState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageInvestorState extends State<HomePageInvestor> {
   String username = "loading...";
   String userProfile =
       'https://firebasestorage.googleapis.com/v0/b/goldonesia-database.appspot.com/o/Users%2Fdefault_profile_photo.jpg?alt=media&token=d5f13064-c8a5-4fdb-a040-1735dab03d5e';
@@ -67,37 +66,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             GestureDetector(
               onTap: () {
-                SideSheet.right(
-                  context: context,
-                  sheetColor: Colors.transparent,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  body: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40.0),
-                        bottomLeft: Radius.circular(40.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3), // Shadow color
-                          offset: Offset(-8,
-                              12), // Offset in the horizontal direction (to the left)
-                          blurRadius: 10, // Blur radius
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(40.0),
-                        bottomLeft: Radius.circular(40.0),
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.all(0),
-                        child: SideProfile(),
-                      ),
-                    ),
-                  ),
-                );
+                print("Masuk Ke laman Profile");
               },
               child: CircleAvatar(
                   radius: 30,
@@ -119,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Halo,",
                       style: TextStyle(
                         fontFamily: 'Odudo-Soft',
@@ -131,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 5),
                     Text(
                       username,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Odudo-Soft',
                         color: Color(0xFF0766AD),
                         fontSize: 26,
@@ -139,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(height: 12),
-                    Text(
+                    const Text(
                       "Ayo wujudkan masa depan",
                       style: TextStyle(
                         fontFamily: 'Odudo-Soft',
@@ -148,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "yang lebih baik!",
                       style: TextStyle(
                         fontFamily: 'Odudo-Soft',
@@ -171,7 +140,7 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 60,
                     ),
                     Container(
@@ -194,20 +163,28 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => IdeaOption()),
+                                builder: (context) => const ListIde()),
                           );
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero, // Remove padding
-                          alignment: Alignment
-                              .centerLeft, // Align the text to the left
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Siapkan Ide\nBisnismu Disini',
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              right: 6,
+                              bottom: 0,
+                              child: Image.asset(
+                                'assets/bisnis.png', // Replace with the actual image path
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Positioned(
+                              left: 20,
+                              top: 20,
+                              bottom: 2,
+                              child: Text(
+                                'Cari Ide Bisnis yang \nKamu Inginkan',
                                 style: TextStyle(
                                   fontFamily: 'Odudo-Soft',
                                   color: Colors.white,
@@ -216,28 +193,19 @@ class _HomePageState extends State<HomePage> {
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.2),
-                                      offset: Offset(-3, 3),
+                                      offset: const Offset(-3, 3),
                                       blurRadius: 4,
                                     ),
                                   ],
                                 ),
                                 textAlign: TextAlign.left,
                               ),
-                              SizedBox(
-                                width: 23.0,
-                              ),
-                              // Add some space between text and image
-                              Image.asset(
-                                'assets/bisnis.png', // Replace with the actual image path
-                                fit: BoxFit.fill, // Set the height of the image
-                                // Set the height of the image
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 19,
                     ),
                     Container(
@@ -278,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                               top: 20,
                               bottom: 2,
                               child: Text(
-                                'Kelola Sampahmu\n    Mulai Sekarang',
+                                'Ayo Siapkan \nBank Sampahmu',
                                 style: TextStyle(
                                   fontFamily: 'Odudo-Soft',
                                   color: Colors.white,
@@ -287,12 +255,12 @@ class _HomePageState extends State<HomePage> {
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.2),
-                                      offset: Offset(-3, 3),
+                                      offset: const Offset(-3, 3),
                                       blurRadius: 4,
                                     ),
                                   ],
                                 ),
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.right,
                               ),
                             ),
                           ],

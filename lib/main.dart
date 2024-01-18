@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:goldonesia/components/bottomNavBar.dart';
+import 'package:goldonesia/components/bottomNavBarInvestor.dart';
 import 'package:goldonesia/screen/ListIde.dart';
 import 'package:goldonesia/screen/beginningPage.dart';
 
@@ -27,9 +28,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-
       home: OnBoardingPage(),
     );
   }

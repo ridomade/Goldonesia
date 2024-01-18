@@ -21,7 +21,13 @@ class _ListIdeState extends State<ListIde> {
   @override
   void initState() {
     super.initState();
+    loadData();
     filteredNotes = sampleNotes;
+  }
+
+  void loadData() async {
+    await addAllProposal();
+    setState(() {});
   }
 
   List<Note> sortNotesByModifiedTime(List<Note> notes) {
@@ -181,7 +187,7 @@ class _ListIdeState extends State<ListIde> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
-                                      'Dana Awal: ${filteredNotes[index].danaAwal}',
+                                      'Dana Awal: ${formatCurrency(filteredNotes[index].danaAwal)}',
                                       style: GoogleFonts.nunito(
                                         fontSize: 14,
                                         fontStyle: FontStyle.italic,
@@ -189,7 +195,7 @@ class _ListIdeState extends State<ListIde> {
                                       ),
                                     ),
                                     Text(
-                                      'Untung: ${filteredNotes[index].untung}',
+                                      'Untung: ${formatCurrency(filteredNotes[index].untung)}',
                                       style: GoogleFonts.nunito(
                                         fontSize: 14,
                                         fontStyle: FontStyle.italic,
@@ -229,9 +235,29 @@ class _ListIdeState extends State<ListIde> {
             ],
           ),
         ),
-
       ),
     );
+  }
+
+  String formatCurrency(String amount) {
+    double value = double.tryParse(amount
+            .replaceAll('Rp', '')
+            .replaceAll('.', '')
+            .replaceAll(' ', '')
+            .replaceAll('Juta', 'e6')
+            .replaceAll('Miliar', 'e9')
+            .replaceAll('Triliun', 'e12')) ??
+        0;
+
+    if (value >= 1e12) {
+      return 'Rp${(value / 1e12).toStringAsFixed(0)} Triliun';
+    } else if (value >= 1e9) {
+      return 'Rp${(value / 1e9).toStringAsFixed(0)} Miliar';
+    } else if (value >= 1e6) {
+      return 'Rp${(value / 1e6).toStringAsFixed(0)} Juta';
+    } else {
+      return 'Rp${value.toStringAsFixed(0)} Ribu';
+    }
   }
 
   Future<dynamic> confirmDialog(BuildContext context) {

@@ -16,7 +16,7 @@ import 'package:file_picker/file_picker.dart';
 // var proposalUrl = '';
 
 Future<void> addUsersProposalData(
-    String name,
+    String ideaName,
     String ideaOverview,
     String totalFundingEstimate,
     String totalProfitEstimate,
@@ -38,6 +38,7 @@ Future<void> addUsersProposalData(
 
     print('Berhasil mengupload proposal');
     await addUsersProposalDataToFirestore(
+        ideaName,
         proposalTitel,
         ideaOverview,
         totalFundingEstimate,
@@ -49,6 +50,7 @@ Future<void> addUsersProposalData(
 }
 
 Future<void> addUsersProposalDataToFirestore(
+    String ideaName,
     String proposalTitle,
     String ideaOverview,
     String totalFundingEstimate,
@@ -56,6 +58,7 @@ Future<void> addUsersProposalDataToFirestore(
     String proposalUrl) async {
   try {
     await FirebaseFirestore.instance.collection("Proposal").add({
+      "ideaName": ideaName,
       "proposalTitle": proposalTitle,
       "ideaOverview": ideaOverview,
       "modifiedTime": DateTime.now(),
