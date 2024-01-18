@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:goldonesia/components/sideProfile.dart';
 import 'package:goldonesia/screen/ideaOptionPage.dart';
+import 'package:side_sheet/side_sheet.dart';
 import '../constants/color.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,7 +67,37 @@ class _HomePageState extends State<HomePage> {
           actions: [
             GestureDetector(
               onTap: () {
-                print("Masuk Ke laman Profile");
+                SideSheet.right(
+                  context: context,
+                  sheetColor: Colors.transparent,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  body: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40.0),
+                        bottomLeft: Radius.circular(40.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3), // Shadow color
+                          offset: Offset(-8,
+                              12), // Offset in the horizontal direction (to the left)
+                          blurRadius: 10, // Blur radius
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(40.0),
+                        bottomLeft: Radius.circular(40.0),
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(0),
+                        child: SideProfile(),
+                      ),
+                    ),
+                  ),
+                );
               },
               child: CircleAvatar(
                   radius: 30,
